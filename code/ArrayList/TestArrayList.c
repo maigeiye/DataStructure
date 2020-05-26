@@ -1,18 +1,19 @@
 # include <stdio.h>
-# include "SqList.h"
+# include "ArrayList.h"
 
 Status visit(ElemType * pe);
-void ElemInput(SqList * pL);
+void ElemInput(ArrayList * pL);
 
 int main(void)
 {
-	SqList L;
+	ArrayList L;
 	ElemType e;
 	int i;
 
 	printf("-----Creating List-----\n");
 	ElemInput(&L);
 	printf("The length of list is %d\n", ListLength(L));
+    printf("The element of list:\n");
 	ListTraverse(L, visit);
 	printf("\n");
 	printf("\n");
@@ -36,6 +37,7 @@ int main(void)
 	if ( ListInsert(&L, i, e) )
 	{
 		printf("Insertion complete!\n");
+    	printf("The element of list:\n");
 		ListTraverse(L, visit);
 		printf("\n");
 	}
@@ -53,13 +55,14 @@ int main(void)
 	printf("\n");
 
 	printf("---------Union---------\n");
-	SqList La, Lb;
+	ArrayList La, Lb;
 	printf("Create List La\n");
 	ElemInput(&La);
 	printf("Create List Lb\n");
 	ElemInput(&Lb);
 	union_Sq(&La, Lb);
 	printf("After uniting\n");
+    printf("The element of list:\n");
 	ListTraverse(La, visit);
 	printf("\n");
 	printf("\n");
@@ -69,9 +72,10 @@ int main(void)
 	ElemInput(&La);
 	printf("Create List Lb\n");
 	ElemInput(&Lb);
-	SqList Lc;
+	ArrayList Lc;
 	MergeList(La, Lb, &Lc);
 	printf("After merging\n");
+    printf("The element of list:\n");
 	ListTraverse(Lc, visit);
 	printf("\n");
 	return 0;
@@ -86,7 +90,7 @@ Status visit(ElemType * pe)
 }
 
 //补充创造线性表并输入元素的函数
-void ElemInput(SqList * pL)
+void ElemInput(ArrayList * pL)
 {
 	ElemType e;
 	int n;

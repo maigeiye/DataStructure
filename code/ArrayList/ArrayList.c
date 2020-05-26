@@ -1,7 +1,7 @@
-#include "SqList.h"
+#include "ArrayList.h"
 
 //构造一个空的顺序线性表
-Status InitList(SqList * pL)
+Status InitList(ArrayList * pL)
 {
     pL->elem = (ElemType *)malloc(LIST_INIT_SIZE * sizeof(ElemType));
     if (! pL->elem)
@@ -12,7 +12,7 @@ Status InitList(SqList * pL)
 }
 
 //销毁顺序线性表L
-Status DestroyList(SqList * pL)
+Status DestroyList(ArrayList * pL)
 {
     free(pL->elem);
     pL->elem = NULL;
@@ -22,14 +22,14 @@ Status DestroyList(SqList * pL)
 }
 
 //将L重置为空表
-Status CleanList(SqList * pL)
+Status CleanList(ArrayList * pL)
 {
     pL->length = 0;
     return OK;
 }
 
 //若L为空表，则返回TRUE，否则返回FALSE
-Status ListEmpty(SqList L)
+Status ListEmpty(ArrayList L)
 {
     if (L.length == 0)
         return TRUE;
@@ -38,13 +38,13 @@ Status ListEmpty(SqList L)
 }
 
 //返回L中数据元素个数
-int ListLength(SqList L)
+int ListLength(ArrayList L)
 {
     return L.length;
 }
 
 //用e返回L中第i个数据元素的值
-Status GetElem(SqList L, int i, ElemType * e)
+Status GetElem(ArrayList L, int i, ElemType * e)
 {
     if (i<1 || i>L.length)
         exit(ERROR);
@@ -64,7 +64,7 @@ Status equal(ElemType a, ElemType b)
 //返回L中第1个与e满足关系compare()的数据元素的位序，若这样的数据元素不存在，则返回值为0
 //Status(*compare)(ElemType, ElemType)定义了一个函数指针，用与指向该函数
 //(*compare)(*p++, e)用该函数指针调用该函数
-int LocateElem(SqList L, ElemType e, Status(*compare)(ElemType, ElemType))
+int LocateElem(ArrayList L, ElemType e, Status(*compare)(ElemType, ElemType))
 {
     ElemType * p;
     int i = 1;
@@ -78,7 +78,7 @@ int LocateElem(SqList L, ElemType e, Status(*compare)(ElemType, ElemType))
 }
 
 //若cur_e是L的数据元素，且不是第一个，则用pre_e返回它的前驱，否则操作失败，pre_e无定义
-Status PriorElem(SqList L, ElemType cur_e, ElemType * pre_e)
+Status PriorElem(ArrayList L, ElemType cur_e, ElemType * pre_e)
 {
     int i = 2;
     ElemType * p = L.elem + 1;
@@ -97,7 +97,7 @@ Status PriorElem(SqList L, ElemType cur_e, ElemType * pre_e)
 }
 
 //若cur_e是L的数据元素，且不是最后一个，则用next_e返回它的后继，否则操作失败，next_e无定义
-Status NextElem(SqList L, ElemType cur_e, ElemType * next_e)
+Status NextElem(ArrayList L, ElemType cur_e, ElemType * next_e)
 {
     int i = 1;
     ElemType * p = L.elem;
@@ -116,7 +116,7 @@ Status NextElem(SqList L, ElemType cur_e, ElemType * next_e)
 }
 
 //在L中第i个位置之前插入新的数据元素e，L的长度加1
-Status ListInsert(SqList * pL, int i, ElemType e)
+Status ListInsert(ArrayList * pL, int i, ElemType e)
 {
     ElemType * newbase, *p, *q;
     if (i<1 || i>pL->length)
@@ -138,7 +138,7 @@ Status ListInsert(SqList * pL, int i, ElemType e)
 }
 
 //删除L的第i个数据元素，并用e返回其值，L的长度减1
-Status ListDelete(SqList * pL, int i, ElemType * pe)
+Status ListDelete(ArrayList * pL, int i, ElemType * pe)
 {
     if (i<1 || i>pL->length)
         return ERROR;
@@ -153,11 +153,10 @@ Status ListDelete(SqList * pL, int i, ElemType * pe)
 }
 
 //依次对L的每个数据元素调用函数visit()，一旦visit()失败，则操作失败
-Status ListTraverse(SqList L, Status(*visit)(ElemType *))
+Status ListTraverse(ArrayList L, Status(*visit)(ElemType *))
 {
     ElemType * p;
     p = L.elem;
-    printf("The element of list:\n");
     for (int i=1; i<=L.length; ++i)
         if( !visit(p++) )
             return ERROR;
@@ -165,7 +164,7 @@ Status ListTraverse(SqList L, Status(*visit)(ElemType *))
 }
 
 //将所有在线性表Lb中但不在La中的数据元素插到La中
-void union_Sq(SqList * pLa, SqList Lb)
+void union_Sq(ArrayList * pLa, ArrayList Lb)
 {
     int La_len;
     int Lb_len;
@@ -185,7 +184,7 @@ void union_Sq(SqList * pLa, SqList Lb)
 
 //已知线性表La和Lb中的数据元素按值递增排列
 //归并La和Lb得到新的线性表Lc，Lc的数据元素也按值递增排序
-void MergeList(SqList La, SqList Lb, SqList * pLc)
+void MergeList(ArrayList La, ArrayList Lb, ArrayList * pLc)
 {
     ElemType * pa, * pb, * pa_last, * pb_last, * pc;
     pa = La.elem;
@@ -210,7 +209,7 @@ void MergeList(SqList La, SqList Lb, SqList * pLc)
 }
 
 //补充追加函数ListAppend(),在线性表末尾的位置添加元素
-Status ListAppend(SqList * pL, ElemType e)
+Status ListAppend(ArrayList * pL, ElemType e)
 {
     ElemType * newbase , * p;
     if (pL->length>=pL->listsize)
